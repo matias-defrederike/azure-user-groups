@@ -119,7 +119,7 @@ resource "azurerm_container_registry_task" "purge" {
     task_content = base64encode(<<-EOF
       version: v1.1.0
       steps:
-        - cmd: acr purge --filter 'matias-azure-container-app:.*' --keep 10 --untagged
+        - cmd: acr purge --filter 'your_image_name:.*' --keep 10 --untagged
     EOF
     )
   }

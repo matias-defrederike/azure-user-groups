@@ -2,27 +2,27 @@
 
 ## O que é o OpenID Connect (OIDC)?
 
-O [OpenID Connect](https://learn.microsoft.com/pt-br/entra/identity-platform/v2-protocols-oidc) é um protocolo de autenticação de identidade construído sobre o OAuth 2.0. Ele permite que clientes verifiquem a identidade do usuário final com base na autenticação realizada por um Servidor de Autorização, utilizando JSON Web Tokens (JWT) para compartilhar informações de perfil (claims) com segurança, sendo amplamente adotado para logon único (SSO).
+O [OpenID Connect](https://learn.microsoft.com/pt-br/entra/identity-platform/v2-protocols-oidc) é um protocolo de autenticação de identidade construído sobre o OAuth 2.0. Ele permite que clientes verifiquem a identidade do usuário final com base na autenticação realizada por um Servidor de Autorização, utilizando JSON Web Tokens (JWT) para compartilhar informações de perfil (claims) com segurança.
 
-O OIDC é essencialmente o OAuth 2.0 com uma camada de identidade, tornando-o o padrão moderno preferido para logins em aplicativos web e móveis.
+O OIDC é essencialmente o OAuth 2.0 com uma camada de identidade, tornando-o o padrão moderno preferido para logins e SSO (Single Sign-On). **No contexto do GitHub Actions, o OIDC elimina completamente a necessidade de armazenar senhas ou credenciais de longa duração como *secrets* no repositório**, garantindo um deploy muito mais seguro.
 
 ## github-actions-deploy
 
-Essa pasta contém somente um exemplo de arquivo para realizar o deploy em um Azure Container App utilizando Github Actions.
+Esta pasta contém o arquivo de workflow para realizar o deploy em um Azure Container App utilizando GitHub Actions.
 
-Para que o Github ative o deploy é necessário que no repo que você deseja criar o deploy esse arquivo `build-deploy.yaml` no diretório `.github/workflows`. 
+Para que o GitHub execute o pipeline automaticamente, é necessário que o arquivo `build-deploy.yaml` seja colocado no diretório `.github/workflows/` do repositório.
 
-Como a autenticação é totalmente feita via OIDC os únicos dados sensíveis que precisamos adicionar como secret no repo são:
+Como a autenticação é totalmente feita via OIDC, os únicos dados de configuração que precisamos adicionar como *secrets* no repositório (e que não são senhas) são:
 
-- AZURE_CLIENT_ID
-- AZURE_TENANT_ID
-- AZURE_SUBSCRIPTION_ID
+- `AZURE_CLIENT_ID`
+- `AZURE_TENANT_ID`
+- `AZURE_SUBSCRIPTION_ID`
 
 ## infra
 
-Esta pasta contém os arquivos de Terraform necessários para provisionar a infraestrutura necessária para a prova de conceito de criar o Azure Container App, bem como os recursos necessários para a autenticação via OIDC.
+Esta pasta contém os códigos em Terraform para provisionar toda a infraestrutura da prova de conceito, incluindo o Azure Container App e os recursos exigidos para a autenticação via OIDC.
 
-Para rodar o Terraform de forma local é necessário criar um arquivo `terraform.tfvars` seguindo a estrutura abaixo:
+Para rodar o Terraform localmente, crie um arquivo chamado `terraform.tfvars` na raiz desta pasta, seguindo a estrutura abaixo:
 
 ```terraform
 resource_group_name = "resource-group-name"
@@ -37,31 +37,31 @@ acr_name            = "acr"
 
 ### `container_app.tf`
 
-Arquivo que contém dos recursos necessários para o Azure Container App rodar:
+Arquivo que provisiona os recursos fundamentais para a execução da aplicação:
 
 - Resource Group
 - Log Analytics Workspace
 - Azure Container App Environment
 - Azure Container App
-- Azure Container Registry
-- Permissão para o container app realizar o pull no Azure Container Registry
+- Azure Container Registry (ACR)
+- Permissões (Role Assignments) para o Container App realizar o pull da imagem no ACR.
 
 ### `github_actions_oidc.tf`
 
-Recursos necessários para que o Github (org/user) possa autenticar na Azure utilizando OIDC
+Provisiona a identidade (Service Principal) e as credenciais federadas para que o repositório do GitHub possa se autenticar de forma segura na Azure utilizando OIDC.
 
 ## static-app
 
-Aplicação REACT apenas para testar o build e push da imagem no Azure Container Registry e rodar ela no Azure Container App.
+Aplicação frontend em React criada para testar o processo de build, o push da imagem Docker para o Azure Container Registry e a execução no Azure Container App.
 
-Você pode substituir essa aplicação por uma imagem do nginx ou então pela imagem `mcr.microsoft.com/mcr/hello-world`.
+Nota: Você pode substituir esta aplicação por uma imagem padrão do Nginx ou pela imagem oficial `mcr.microsoft.com/mcr/hello-world`
 
 ## Para rodar a aplicação localmente utilize
 
 ```shell
-# Install dependencies
+# Instale as dependências
 npm install
-# Run locally
+# Inicie o servidor de desenvolvimento
 npm run dev
 ```
 
