@@ -30,5 +30,5 @@ resource "azuread_application_federated_identity_credential" "github_actions" {
   issuer         = "https://token.actions.githubusercontent.com"
 
   # Constructs the exact subject string expected by GitHub Actions
-  subject = "repo:${var.github_username}/${var.github_repository}:ref:refs/heads/add/main"
+  subject = "repo:${var.github_username}/${var.github_repository}:ref:refs/heads/main"
 }
