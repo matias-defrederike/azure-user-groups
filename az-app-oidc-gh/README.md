@@ -1,11 +1,5 @@
 # Azure Container App com Deploy em OIDC - Azure User Groups
 
-## O que é o OpenID Connect (OIDC)?
-
-O [OpenID Connect](https://learn.microsoft.com/pt-br/entra/identity-platform/v2-protocols-oidc) é um protocolo de autenticação de identidade construído sobre o OAuth 2.0. Ele permite que clientes verifiquem a identidade do usuário final com base na autenticação realizada por um Servidor de Autorização, utilizando JSON Web Tokens (JWT) para compartilhar informações de perfil (claims) com segurança.
-
-O OIDC é essencialmente o OAuth 2.0 com uma camada de identidade, tornando-o o padrão moderno preferido para logins e SSO (Single Sign-On). **No contexto do GitHub Actions, o OIDC elimina completamente a necessidade de armazenar senhas ou credenciais de longa duração como *secrets* no repositório**, garantindo um deploy muito mais seguro.
-
 ## github-actions-deploy
 
 Esta pasta contém o arquivo de workflow para realizar o deploy em um Azure Container App utilizando GitHub Actions.
@@ -18,7 +12,7 @@ Como a autenticação é totalmente feita via OIDC, os únicos dados de configur
 - `AZURE_TENANT_ID`
 - `AZURE_SUBSCRIPTION_ID`
 
-## infra
+## infra/terraform
 
 Esta pasta contém os códigos em Terraform para provisionar toda a infraestrutura da prova de conceito, incluindo o Azure Container App e os recursos exigidos para a autenticação via OIDC.
 
@@ -56,7 +50,7 @@ Aplicação frontend em React criada para testar o processo de build, o push da 
 
 Nota: Você pode substituir esta aplicação por uma imagem padrão do Nginx ou pela imagem oficial `mcr.microsoft.com/mcr/hello-world`
 
-## Para rodar a aplicação localmente utilize
+### Para rodar a aplicação localmente utilize
 
 ```shell
 # Instale as dependências
