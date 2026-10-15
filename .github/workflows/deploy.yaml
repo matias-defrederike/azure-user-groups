@@ -21,7 +21,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4 
+        uses: actions/checkout@v7
 
       - name: Azure Login (OIDC)
         uses: azure/login@v3
@@ -35,7 +35,7 @@ jobs:
 
       - name: Build and Push Docker Image
         run: |
-          docker build -t ${{ env.IMAGE_NAME }} ./static-app # if your Dockerfile is in a subdirectory, specify it here
+          docker build -t ${{ env.IMAGE_NAME }} ./az-app-oidc-gh/static-app # if your Dockerfile is in a subdirectory, specify it here
           docker push ${{ env.IMAGE_NAME }}
 
       - name: Update the image in Container Apps
