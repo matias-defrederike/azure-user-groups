@@ -11,7 +11,7 @@ permissions:
 
 env: 
   RESOURCE_GROUP: youtube-live-deploy-channel
-  CONTAINER_APP_NAME: cae-app-name
+  CONTAINER_APP_NAME: app-app-name
   ACR_NAME: acrmatiasdummyrepo
   IMAGE_NAME: acrmatiasdummyrepo.azurecr.io/canaldeploy:${{ github.sha }}
 
