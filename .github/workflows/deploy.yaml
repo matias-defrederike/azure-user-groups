@@ -13,8 +13,7 @@ env:
   RESOURCE_GROUP: youtube-live-deploy-channel
   CONTAINER_APP_NAME: cae-app-name
   ACR_NAME: acrmatiasdummyrepo
-  IMAGE_NAME: mcr.microsoft.com/k8se/quickstart:latest
-  # IMAGE_NAME: acrmatiasdummyrepo.azurecr.io/YOUR_IMAGE_NAME:${{ github.sha }}
+  IMAGE_NAME: acrmatiasdummyrepo.azurecr.io/canaldeploy:${{ github.sha }}
 
 jobs:
   build-and-deploy:
